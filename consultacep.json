@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "f417785c-6b2d-40cc-b238-de8bcd7602fa",
+		"name": "Consulta CEPzada",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Consulta CEP",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function zipCode() {\r",
+							"    var zipCode = [\"62322-240\",\"01001-000\",\"08060-310\",\"02982-000\",\"03015-000\",\"05519-040\"]\r",
+							"    console.log(zipCode)\r",
+							"    var randomItem = zipCode[Math.floor(Math.random() * zipCode.length)];\r",
+							"    console.log(randomItem)\r",
+							"    return randomItem;\r",
+							"\r",
+							"}\r",
+							"pm.environment.set(\"ZipCode\", zipCode());\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Check ZipCode is true\", function () {\r",
+							"    pm.expect(pm.variables.get(\"ZipCode\")).to.eql(JSON.parse(responseBody).cep)\r",
+							"\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{ZipCode}}/json/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{ZipCode}}",
+						"json",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
